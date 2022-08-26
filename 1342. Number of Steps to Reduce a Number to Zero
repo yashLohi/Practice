@@ -1,0 +1,24 @@
+ public int numberOfSteps(int num) {
+        
+        return count(num,0);
+        
+    }
+    
+    int count(int n, int steps){
+
+        int newnum=0;
+       
+	   if(n==0){
+            return steps;
+        }
+        if(n%2==0){
+            newnum=n/2;
+            steps++;
+            return count(newnum,steps);
+        }else {
+            steps++;
+            newnum=n-1;
+            return count(newnum,steps);
+        }
+    }
+}
