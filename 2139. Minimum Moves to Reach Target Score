@@ -1,0 +1,48 @@
+Input: target = 19, maxDoubles = 2
+Output: 7
+Explanation: Initially, x = 1
+Increment 3 times so x = 4
+Double once so x = 8
+Increment once so x = 9
+Double again so x = 18
+Increment once so x = 19
+
+
+int count=0;
+		while(target>1) {
+			if(maxDoubles==0) {
+				return target+count-1;
+			}
+			if(target%2==0 && maxDoubles>0) {
+				target=target/2;
+				count++;
+				maxDoubles=maxDoubles-1;
+			}
+			else {
+				target=target-1;
+				count++;
+			}
+		}
+		return count;
+    
+    
+    recursion////
+
+class Solution {
+    public int minMoves(int target, int maxDoubles) {
+        return step(target, maxDoubles, 0);
+    }
+    private int step(int n,int mx,int res){
+  if(n == 1){
+    return res;
+  }
+  if(mx == 0){
+    return res + n - 1;
+  }
+  if(n % 2 == 0){
+    return step(n/2,mx-1,res+1);
+  }
+ 
+  return step(n-1,mx,res+1);
+    }
+}```
