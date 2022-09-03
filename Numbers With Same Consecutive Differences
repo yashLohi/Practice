@@ -1,0 +1,113 @@
+java\
+
+ private void dfs (int num, int digit, int n, int k, List<Integer> numbers) {
+        
+        if (n == 0) {
+            numbers.add (num);
+            return;
+        }
+        if (digit + k <= 9) {
+            dfs (num * 10 + (digit + k), digit + k, n - 1, k, numbers);
+        }
+        if (k != 0 && digit - k >= 0) {
+            dfs (num * 10 + (digit - k), digit - k, n - 1, k, numbers);
+        }
+    }
+    
+    public int[] numsSameConsecDiff(int n, int k) {
+        
+        List<Integer> numbers = new ArrayList<> ();
+        
+        for (int num = 1; num < 10; num++) {
+            dfs (num, num, n - 1, k, numbers);
+        }
+        
+        int[] answer = new int[numbers.size ()];
+        
+        for (int i = 0; i < answer.length; i++) {
+            answer[i] = numbers.get (i);
+        }
+        
+        return answer;
+    
+    
+    
+    backtracking\
+    
+    
+    class Solution {
+    
+    List<Integer> res = new ArrayList<>();
+    public int[] numsSameConsecDiff(int n, int k) {
+        
+        for(int ans = 1; ans < 10; ans++){ // first digit can't be 0
+            find(ans, n-1, k); // find remaining n-1 digits using backtrack
+        }
+        
+        return res.stream().mapToInt(Integer::intValue).toArray();  // convert list to int arr
+    }
+    
+    private void find(int ans, int n, int k){
+        
+        if(n == 0){
+            res.add(ans); // if got length n number then put that into res
+            return;
+        }
+        
+        for(int i = 0; i < 10; i++){
+            if(Math.abs(ans%10-i) == k) // find digit that have k difference with last digit
+                find(ans*10+i, n-1, k);
+        }
+        ans /= 10; // remove last digit while backtrack
+        }
+        }
+        
+        
+        
+C++\
+
+
+class Solution {
+public:
+	//To find digits in the current number
+    int counts(int x) {
+        int len = 0;
+        while(x)
+        {
+			len++;
+            x = x/10;
+        }
+        return len;
+    }
+    void findnum(int x, int n ,int k, vector<int> &res){
+        if(counts(x) == n) //Base case
+        {
+            res.push_back(x);
+            return;
+        }
+        for(int i=0;i<10;i++) {
+           int last_digit = x % 10;
+           if(abs(last_digit - i) == k) 
+           {
+               findnum((x*10 + i), n, k, res); 
+           } 
+        }
+    }
+    vector<int> numsSameConsecDiff(int n, int k) {
+        vector<int> res; 
+        if(n == 1) //Special Case where 0 can be included if given 'N' is 1
+        {
+            res.push_back(0);
+        }
+        for(int i=1;i<10;i++) {
+            findnum(i, n, k, res);    
+        }
+        return res; 
+    }
+};
+            
+        
+        
+        
+    
+    
