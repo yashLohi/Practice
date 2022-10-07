@@ -1,0 +1,38 @@
+class MyCalendarThree {
+
+
+
+ private Map<Integer, Integer> mp = new TreeMap<>();
+    private int maxCount = 0;
+    public int book(int start, int end) {
+        mp.put(start, mp.getOrDefault(start, 0) + 1);
+        mp.put(end, mp.getOrDefault(end, 0) - 1);
+        int count = 0;
+        for(Map.Entry<Integer, Integer> it : mp.entrySet()){
+            count += it.getValue();
+            maxCount = Math.max(maxCount, count);
+        }
+        return maxCount;
+    }
+}
+
+
+class MyCalendarThree {
+public:
+    map<int,int> mp;
+    MyCalendarThree() {
+
+    }
+
+    int book(int start, int end) {
+        mp[start]++;
+        mp[end]--;
+        int sum=0;
+        int curr_sum=0;
+        for(auto it : mp){
+            curr_sum+= it.second;
+            sum=max(sum,curr_sum);            
+        }
+        return sum;
+    }
+};
