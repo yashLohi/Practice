@@ -1,0 +1,54 @@
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        int result = nums[0] + nums[1] + nums[nums.length-1];
+        Arrays.sort(nums);
+        
+        for(int i =0; i<nums.length-2; i++){
+            int a_Pointer = i+1;
+            int b_Pointer = nums.length-1;
+            
+            while(a_Pointer < b_Pointer){
+                int current_sum = nums[i] + nums[a_Pointer] + nums[b_Pointer];
+                if(current_sum > target){
+                    b_Pointer -= 1;
+                }else{
+                    a_Pointer += 1;
+                }
+                
+                if(Math.abs(current_sum-target) < Math.abs(result-target)){
+                    result = current_sum;
+                }
+            }
+            
+        }
+        return result;
+    }
+}
+
+
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int diff =INT_MAX;
+        int ans =0;
+        for(int i = 0; i<nums.size(); i++){
+            int first = nums[i];
+            int start = i+1;
+            int end = nums.size()-1;
+            while(start<end){
+                if(first+nums[start]+nums[end]) return target;
+                    else if(abs(first+nums[start]+nums[end] - target)<diff){
+                        diff = (first+nums[start]+nums[end] - target);
+                        ans = first+nums[start]+nums[end];
+                    }
+                    if(first+nums[start]+nums[end]>target)end--;
+                    else start++;
+                }
+            }
+            
+        
+    return ans;
+    }
+};
