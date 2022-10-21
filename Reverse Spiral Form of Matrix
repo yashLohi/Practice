@@ -1,0 +1,99 @@
+class Solution
+{
+    public int[] reverseSpiral(int R, int C, int[][] a)
+    {
+        // code here
+        int[] ans = new int[R*C];
+        int idx= R*C-1;
+        int up=0;
+        int down=a.length-1;
+        int left = 0;
+        int right = a[0].length-1;
+        
+        
+        while(idx>=0){
+            for(int i=left; i<=right && idx>=0; i++){
+                ans[idx--] = a[up][i];
+            }
+            up++;
+            
+            for(int i = up; i<=down && idx>=0; i++){
+                ans[idx--] = a[i][right];
+            }
+            right--;
+            
+            for(int i=right; i>=left && idx>=0; i--){
+                ans[idx--]=a[down][i];
+            }
+            down--;
+            
+            for(int i=down; i>=up && idx>=0; i--){
+                ans[idx--] =a[i][left];
+            }
+            left++;
+        }
+        
+        return ans;
+    }
+}
+
+
+class Solution
+{
+    public int[] reverseSpiral(int R, int C, int[][] a){
+        int sr = 0;
+        int sc = 0;
+        int er = R-1;
+        int ec = C-1;
+        int[] ans = new int[R*C];
+        int i = 0;
+        
+        while (i < ans.length){
+            //left to right;
+            for(int j = sc ; j <= ec; j++){
+                ans[i] = a[sr][j];
+                i++;
+                
+            }
+            if(i >= ans.length) break;
+            sr++;
+            
+            
+            //top to bottom
+            for(int j = sr; j <= er; j++){
+                ans[i] = a[j][ec];
+                i++;
+                
+            }
+            if(i >= ans.length) break;
+            ec--;
+            
+            
+            //right to left;
+            for(int j = ec; j>= sc; j--){
+                ans[i] = a[er][j];
+                i++;
+                
+            }
+            if(i >= ans.length) break;
+            er--;
+            
+            
+            // bottom to top
+            for(int j = er; j >= sr; j--){
+                ans[i] = a[j][sc];
+                i++;
+                
+            }
+            if(i >= ans.length) break;
+            sc++;
+        }
+        
+        for(int l = 0, r = ans.length-1; l < r; l++,r--){
+            int temp = ans[l];
+            ans[l] = ans[r];
+            ans[r] = temp;
+        }
+        return ans;
+    }
+}
