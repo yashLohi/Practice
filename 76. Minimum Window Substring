@@ -1,0 +1,119 @@
+class Solution {
+    public String minWindow(String s1, String s2) {
+        String ans = "";
+        
+        HashMap<Character, Integer> map2 = new HashMap<>();
+        for(int i =0; i<s2.length(); i++){
+            char ch = s2.charAt(i);
+            map2.put(ch, map2.getOrDefault(ch, 0)  + 1);
+        }
+        
+        int mct = 0;
+        int dmct = s2.length();
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        int i = -1;
+        int j = -1;
+        
+        while(true){
+            boolean f1 = false;
+            boolean f2 = false;
+//             aquire
+            while(i<s1.length() -1 && mct < dmct){
+                i++;
+                char ch = s1.charAt(i);
+                map1.put(ch, map1.getOrDefault(ch, 0)+1);
+                
+                if(map1.getOrDefault(ch, 0) <= map2.getOrDefault(ch, 0)){
+                    mct++;
+                    
+                }
+                f1 =true;
+            }
+            
+            // /collect answer and release 
+            while(j < i && mct == dmct){
+                String pans = s1.substring(j + 1, i + 1);
+                if(ans.length() == 0 || pans.length() < ans.length()){
+                    ans = pans;
+                }
+                
+                j++;
+                char ch = s1.charAt(j);
+                if(map1.get(ch) == 1){
+                    map1.remove(ch);
+                }else{
+                    map1.put(ch, map1.get(ch) - 1);
+                }
+                
+                if(map1.getOrDefault(ch, 0) < map2.getOrDefault(ch, 0)){
+                    mct--;
+                }
+                f2 = true;
+                
+            }
+            
+            if(f1 == false && f2 == false){
+                break;
+            }
+        }
+        return ans;
+    }
+}
+
+-------------------------------------------------------------------------------------------
+
+
+class Solution {
+    public String minWindow(String s, String t) {
+        
+        if (t.length() > s.length() || t.equals(""))
+            return "";
+        
+        Map<Character, Integer> tMap = new HashMap<>();
+        Map<Character, Integer> sMap = new HashMap<>();
+        
+        for(char c : t.toCharArray()){
+            tMap.put(c, tMap.getOrDefault(c, 0) + 1);
+            sMap.put(c, 0);
+        }
+        
+        int start=0, matched=0;
+        int minLength = s.length();
+        int[] result = new int[]{-1,-1};
+		
+        for (int end=0; end < s.length(); end++){
+            char curr = s.charAt(end);
+            
+            // Check if current char is present in target, then update character count in source map
+            if(tMap.containsKey(curr)){
+                sMap.put(curr, sMap.get(curr) + 1);            
+                if(sMap.get(curr).equals(tMap.get(curr)))
+                    matched++;
+            }
+            
+            // When a valid window is found, try to reduce it until a valid window is not found
+            if(matched == tMap.size()){
+                // Iterate until the window is not valid
+                while(matched == tMap.size()){
+                    char first = s.charAt(start++);
+                    // If current char is a character in target, 
+                    // then reduce its count from the sMap as we'll reduce its count
+                    if(sMap.containsKey(first)){
+                        sMap.put(first, sMap.get(first) - 1);
+                        // If count of first char in window < count in tMap, then reduce the matched count
+                        if(sMap.get(first) < tMap.get(first))
+                            matched--;
+                    }
+                }
+                // Update length if current length is smaller than previous
+                // Note - Check 1 character before start index as the start idx was already incremented in the while loop
+                if (end - (start - 1) < minLength){
+                    minLength = end - (start - 1) + 1;
+                    result[0] = start - 1;
+                    result[1] = end;
+                }
+            }
+        }
+        return result[0] != -1 ? s.substring(result[0], result[1] + 1) : "";
+    }
+}
