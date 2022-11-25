@@ -1,0 +1,82 @@
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        long res=0L,mod=(long)1e9+7;
+        int n=arr.length;
+        long[] left= new long[n];
+        long[] right= new long[n];
+        Stack<int[]> s1= new Stack<>();
+        Stack<int[]> s2 = new Stack<>();
+        for(int i=0;i<n;i++) {
+            int count=1;
+            while(!s1.isEmpty() && s1.peek()[0]>arr[i])
+                count+=s1.pop()[1];
+           s1.push(new int[]{arr[i],count});
+            left[i]=count;
+        }
+        for(int i=n-1;i>=0;i--) {
+            int count=1;
+            while(!s2.isEmpty() && s2.peek()[0]>=arr[i])
+                count+=s2.pop()[1];
+           s2.push(new int[]{arr[i],count});
+            right[i]=count;
+        }
+       
+        for(int i=0;i<n;i++)
+            res=(res+arr[i]*left[i]*right[i])%mod;
+        return (int)res;
+    }
+}
+
+===============================
+
+
+
+class Solution {
+public:
+    int MOD=1000000007;
+    
+    int sumSubarrayMins(vector<int>& arr) { 
+        int n = arr.size();
+        vector<int> left(n,-1);
+        vector<int> right(n,n);
+        stack<int> st;
+        for(int i=0; i<n; i++)
+        {
+            while(st.size() && arr[i] < arr[st.top()]){
+                st.pop();
+            }   
+            if(st.size()){
+                left[i] = i - st.top();
+            }
+            else{
+                left[i] = i+1;
+            }
+            st.push(i);
+        }
+        
+        while(st.size()) st.pop();
+        
+        for(int i=n-1; i>=0; i--)
+        {
+            while(st.size() && arr[i] <= arr[st.top()]){
+                st.pop();
+            }
+            if(st.size()){
+                right[i] = st.top() - i;
+            }
+            else{ 
+                right[i] = n - i;
+            }
+            st.push(i);
+        }
+        
+        int ans = 0;
+        for(int i=0; i<n; i++)
+        {
+            long long total = (left[i]*right[i])%MOD;   
+            total = (total*arr[i])%MOD;
+            ans = (ans + total)%MOD;
+        }
+        return ans%MOD;
+    }
+};
