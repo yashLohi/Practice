@@ -1,0 +1,52 @@
+class RandomizedSet {
+    private ArrayList<Integer> values;
+    private Map<Integer, Integer> valueToIndexMap;
+    
+    public RandomizedSet() {
+        values = new ArrayList<>();
+        valueToIndexMap = new HashMap<>();
+    }
+    
+    public boolean insert(int val) {
+        if(valueToIndexMap.containsKey(val)) {
+            return false;
+        }
+        
+        valueToIndexMap.put(val, values.size());
+        values.add(val);
+        
+        
+        return true;
+    }
+    
+    public boolean remove(int val) {
+        if(!valueToIndexMap.containsKey(val)) {
+            return false;
+        }
+        
+        // get last element value and index
+        int lastElementIndex = values.size() - 1;
+        int lastElementValue = values.get(lastElementIndex);
+        
+        // find to remove index
+        int toRemoveIndex = valueToIndexMap.get(val);
+        
+        // copy last element to removing element
+        values.set(toRemoveIndex, lastElementValue);
+        // remove last element
+        values.remove(lastElementIndex);
+
+        // update map
+        valueToIndexMap.put(lastElementValue, toRemoveIndex);
+        valueToIndexMap.remove(val);
+        
+        
+        return true;
+    }
+    
+    public int getRandom() {
+        int index = new Random().nextInt(values.size());
+        
+        return values.get(index);
+    }
+}
