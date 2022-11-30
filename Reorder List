@@ -1,0 +1,98 @@
+class Solution {
+    
+    Node reverse(Node head){
+        Node curr = head;
+        Node prev = null;
+        Node temp = null;
+        while(curr!=null){
+            temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+    
+    Node getmid(Node head){
+        Node slow = head;
+        Node fast = head.next;
+        while(fast != null && fast.next!= null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    Node reorderlist(Node head) {
+        // Your code here
+        Node l1 = head;
+        Node mid = getmid(head);
+        Node l2 = mid.next;
+        mid.next = null;
+        l2 = reverse(l2);
+        Node ans = new Node(-1);
+        Node curr = ans;
+        while(l1 != null || l2!= null){
+            if(l1 != null){
+                curr.next = l1;
+                curr= curr.next;
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                curr.next =l2;
+                curr = curr.next;
+                l2 = l2.next;
+            }
+        }
+       return  head = ans.next;
+    }
+   
+}
+
+
+
+=================================
+
+
+
+class Solution {
+    Node reorderlist(Node head) {
+        // Your code here
+        if(head.next==null)return head;
+        
+        Node fast=head;
+        Node slow=head;
+        Node prev=null;
+        while(fast!=null && fast.next!=null)
+        {
+            prev = slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        prev.next=null;
+        Node revHead=reverse(slow);
+        Node startHead=head;
+        while(startHead!=null)
+        {
+            Node startNext=startHead.next;
+            Node revNext=revHead.next;
+            startHead.next=revHead;
+            if(startNext!=null)revHead.next=startNext;
+            startHead=startNext;
+            revHead=revNext;
+        }
+        return head;
+    }
+    Node reverse(Node head)
+    {
+        Node prev=null;
+        while(head!=null)
+        {
+            Node next = head.next;
+            head.next=prev;
+            prev=head;
+            head=next;
+        }
+        return prev;
+    }
+}
