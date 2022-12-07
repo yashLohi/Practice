@@ -51,3 +51,32 @@ class Solution {
         return ans;
     }
 };
+=============================
+class Solution 
+{
+    int ans, count;
+    
+    public void solve(Node root, int K)
+    {
+        if(root==null)
+            return;
+            
+        solve(root.left, K);
+        
+        count++;
+        if(count==K)
+        {
+            ans=root.data;
+        }
+            
+        solve(root.right, K);
+    }
+    
+    public int KthSmallestElement(Node root, int K)
+    {
+        ans=-1;
+        count=0;
+        solve(root, K);
+        return ans;
+    }
+}
