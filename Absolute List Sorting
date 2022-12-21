@@ -1,0 +1,70 @@
+class Solution
+{
+	Node sortList(Node head) {
+		// Your code here
+		      Node temp = head, prev = head;
+
+     int elem = head.data;
+
+     if(head.data < 0){
+
+         prev = head;
+
+         temp = temp.next;
+
+     }
+
+     while(temp != null){
+
+         if(temp.data >= 0){
+
+             prev = temp;
+
+             temp = temp.next;
+
+         }else{
+
+             prev.next = temp.next;
+
+             temp.next = head;
+
+             head = temp;
+
+             temp = prev.next;
+
+         }
+
+     }
+     return head;
+	}
+}
+
+=====================
+class Solution{
+public:
+     Node* sortList(Node* head){
+         
+        if(!head || !(head->next))
+            return head;
+        
+        Node *current=head->next;
+        Node *previous=head;
+        Node *front=head;
+        
+        while(current){
+            if((current->data)<0){
+                while(current && (current->data)<0){ 
+                    previous->next=current->next;
+                    current->next=front;
+                    front=current;
+                    current=previous->next;
+                }
+            }
+            if(current){
+                current=current->next;
+                previous=previous->next;
+            }
+        }
+        return front;
+    }
+};
